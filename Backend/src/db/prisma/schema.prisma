@@ -1,0 +1,102 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id         String        @id @default(cuid())
+  email      String        @unique
+  login      String        @unique
+  password   String
+  role       String        @default("USER")
+  is_blocked Boolean       @default(false)
+  created_at DateTime      @default(now())
+  updated_at DateTime      @updatedAt
+  // relations
+  posts      post[]
+  settings   user_setting?
+  comments   comments[]
+}
+
+model user_setting {
+  user_id     String  @unique
+  message     String?
+  avatar_path String?
+  // relations
+  user        user    @relation(fields: [user_id], references: [id])
+}
+
+model post {
+  id         String      @id @default(cuid())
+  title      String
+  photo_path String
+  reputation Int         @default(0)
+  is_deleted Boolean     @default(false)
+  is_edited  Boolean     @default(false)
+  created_at DateTime    @default(now())
+  updated_at DateTime    @updatedAt
+  source     String
+  // relations
+  author     user        @relation(fields: [authorId], references: [id])
+  authorId   String
+  comments   comments[]
+  tags       post_tags[]
+}
+
+model comments {
+  id         String   @id @default(cuid())
+  content    String
+  reputation Int?     @default(0)
+  is_deleted Boolean  @default(false)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  // relations
+  post       post     @relation(fields: [postId], references: [id])
+  postId     String
+  author     user     @relation(fields: [authorId], references: [id])
+  authorId   String
+}
+
+model tags {
+  id    String      @id @default(cuid())
+  name  String
+  // relations
+  posts post_tags[]
+}
+
+model post_tags {
+  id      String @id @default(cuid())
+  post_id String
+  tag_id  String
+  // relations
+  post    post   @relation(fields: [post_id], references: [id])
+  tag     tags   @relation(fields: [tag_id], references: [id])
+}
+
+model articles {
+  id         String   @id @default(cuid())
+  label      String
+  title      String
+  content    String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  // relations
+  // author user @relation(fields: [authorId], references: [id])
+  // authorId String
+}
+
+model SYSTEM {
+  id    String @id @default(cuid())
+  name  String
+  value String
+}
