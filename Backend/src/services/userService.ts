@@ -1,5 +1,5 @@
 import { UserRepository } from "../db/repositories";
-import type { user } from "@prisma/client";
+import type { users } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 
 export class UserService {
@@ -9,22 +9,22 @@ export class UserService {
     this.userRepository = new UserRepository();
   }
 
-  async getUserProfile(userId: string): Promise<user | null> {
+  async getUserProfile(userId: string): Promise<users | null> {
     return this.userRepository.getUserById(userId);
   }
 
-  async getUserByEmail(email: string): Promise<user | null> {
+  async getUserByEmail(email: string): Promise<users | null> {
     return this.userRepository.getUserByEmail(email);
   }
 
-  async getUserByLogin(login: string): Promise<user | null> {
+  async getUserByLogin(login: string): Promise<users | null> {
     return this.userRepository.getUserByLogin(login);
   }
 
   async loginUser(userData: {
     email: string;
     password: string;
-  }): Promise<user | null> {
+  }): Promise<users | null> {
     // Sprawdź czy użytkownik istnieje
     const user = await this.userRepository.getUserByEmail(userData.email);
     if (!user) {
@@ -47,7 +47,7 @@ export class UserService {
     email: string;
     login: string;
     password: string;
-  }): Promise<user> {
+  }): Promise<users> {
     // Check if user with given email already exists
     let existingUser = await this.userRepository.getUserByEmail(userData.email);
     if (existingUser) {

@@ -16,7 +16,7 @@ export class UserController {
       const { email, password, username } = req.body;
 
       if (!email || !password || !username) {
-        return res.status(400).json({ message: "Brak wymaganych danych" });
+        return res.status(400).json({ message: "Brak wymaganych danych"});
       }
 
       const user = await this.userService.registerUser({

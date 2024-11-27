@@ -1,9 +1,9 @@
 import { BaseRepository } from "./baseRepository";
-import { post, Prisma } from "@prisma/client";
+import { posts, Prisma } from "@prisma/client";
 
 export class PostRepository extends BaseRepository {
-  async createPost(data: Prisma.postCreateInput): Promise<post> {
-    return await this.prisma.post.create({
+  async createPost(data: Prisma.postsCreateInput): Promise<posts> {
+    return this.prisma.posts.create({
       data: {
         ...data,
         tags: {
@@ -19,28 +19,28 @@ export class PostRepository extends BaseRepository {
     });
   }
 
-  async getPosts(options?: {
-    take?: number;
-    skip?: number;
-    includeDeleted?: boolean;
-  }) {
-    return await this.prisma.post.findMany({
-      where: {
-        is_deleted: options?.includeDeleted ? undefined : false,
-      },
-      take: options?.take,
-      skip: options?.skip,
-      include: {
-        author: true,
-        tags: {
-          include: {
-            tag: true,
-          },
-        },
-      },
-      orderBy: {
-        created_at: "desc",
-      },
-    });
-  }
+  // async getPosts(options?: {
+  //   take?: number;
+  //   skip?: number;
+  //   includeDeleted?: boolean;
+  // }) {
+  //   return this.prisma.posts.findMany({
+  //     where: {
+  //       is_deleted: options?.includeDeleted ? undefined : false,
+  //     },
+  //     take: options?.take,
+  //     skip: options?.skip,
+  //     include: {
+  //       author: true,
+  //       tags: {
+  //         include: {
+  //           tag: true,
+  //         },
+  //       },
+  //     },
+  //     orderBy: {
+  //       created_at: "desc",
+  //     },
+  //   });
+  // }
 }

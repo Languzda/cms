@@ -1,15 +1,15 @@
 import { BaseRepository } from "./baseRepository";
-import type { user, Prisma } from "@prisma/client";
+import type { users, Prisma } from "@prisma/client";
 
 export class UserRepository extends BaseRepository {
-  async createUser(data: Prisma.userCreateInput): Promise<user> {
-    return this.prisma.user.create({
+  async createUser(data: Prisma.usersCreateInput): Promise<users> {
+    return this.prisma.users.create({
       data,
     });
   }
 
-  async getUserById(id: string): Promise<user | null> {
-    return this.prisma.user.findUnique({
+  async getUserById(id: string): Promise<users | null> {
+    return this.prisma.users.findUnique({
       where: { id },
       include: {
         posts: true,
@@ -18,27 +18,27 @@ export class UserRepository extends BaseRepository {
     });
   }
 
-  async getUserByEmail(email: string): Promise<user | null> {
-    return this.prisma.user.findUnique({
+  async getUserByEmail(email: string): Promise<users | null> {
+    return this.prisma.users.findUnique({
       where: { email },
     });
   }
 
-  async getUserByLogin(login: string): Promise<user | null> {
-    return this.prisma.user.findUnique({
+  async getUserByLogin(login: string): Promise<users | null> {
+    return this.prisma.users.findUnique({
       where: { login },
     });
   }
 
-  async updateUser(id: string, data: Prisma.userUpdateInput): Promise<user> {
-    return this.prisma.user.update({
+  async updateUser(id: string, data: Prisma.usersUpdateInput): Promise<users> {
+    return this.prisma.users.update({
       where: { id },
       data,
     });
   }
 
-  async deleteUser(id: string): Promise<user> {
-    return this.prisma.user.delete({
+  async deleteUser(id: string): Promise<users> {
+    return this.prisma.users.delete({
       where: { id },
     });
   }

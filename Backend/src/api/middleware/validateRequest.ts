@@ -10,12 +10,8 @@ export const validateRequest = (
   if (!errors.isEmpty()) {
     res.status(400).json({
       message: "Błąd walidacji",
-      errors: errors.array().map((err) => ({
-        field: err.type,
-        message: err.msg,
-      })),
+      error: errors.mapped(),
     });
-    return;
   }
   next();
 };
