@@ -19,28 +19,28 @@ export class PostRepository extends BaseRepository {
     });
   }
 
-  // async getPosts(options?: {
-  //   take?: number;
-  //   skip?: number;
-  //   includeDeleted?: boolean;
-  // }) {
-  //   return this.prisma.posts.findMany({
-  //     where: {
-  //       is_deleted: options?.includeDeleted ? undefined : false,
-  //     },
-  //     take: options?.take,
-  //     skip: options?.skip,
-  //     include: {
-  //       author: true,
-  //       tags: {
-  //         include: {
-  //           tag: true,
-  //         },
-  //       },
-  //     },
-  //     orderBy: {
-  //       created_at: "desc",
-  //     },
-  //   });
-  // }
+  async getPosts(options?: {
+    take?: number;
+    skip?: number;
+    includeDeleted?: boolean;
+  }) {
+    return this.prisma.posts.findMany({
+      where: {
+        is_deleted: options?.includeDeleted ? undefined : false,
+      },
+      take: options?.take,
+      skip: options?.skip,
+      include: {
+        author: true,
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
+      },
+      orderBy: {
+        created_at: "desc",
+      },
+    });
+  }
 }

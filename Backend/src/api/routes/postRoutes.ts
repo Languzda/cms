@@ -1,9 +1,14 @@
 import { Router } from "express";
+import {PostController} from "../../controllers/postController";
 
 const router = Router();
 
-router.get("/create", (req, res) => {
-     res.status(201).json({ message: "Post created" });
+router.post("/create",async (req, res) => {
+     await new PostController().createPost(req, res);
+});
+
+router.get("/", async (req, res) => {
+    await new PostController().getPosts(req, res);
 });
 
 export default router;
