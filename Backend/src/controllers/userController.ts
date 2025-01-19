@@ -64,10 +64,40 @@ export class UserController {
       return res.status(200).json({
         message: "Zalogowano pomyślnie",
         token,
+        userId:user.id,
       });
     } catch (error) {
       return res.status(400).json({
         message: "Wystąpił błąd podczas logowania",
+        error: error instanceof Error ? error.message : "Nieznany błąd",
+      });
+    }
+  }
+
+  async updateUserPassword(req: Request, res: Response) {
+    try {
+      const {userId, oldPassword, newPassword } = req.body;
+
+      if (!oldPassword || !newPassword) {
+        return res.status(400).json({ message: "Brak wymaganych danych" });
+      }
+
+      const user = await this.userService.updateUserPassword(
+        userId,
+        oldPassword,
+        newPassword,
+      );
+
+      if (!user) {
+        return res.status(400).json({ message: "Nieprawidłowe hasło" });
+      }
+
+      return res.status(200).json({
+        message: "Hasło zostało zmienione pomyślnie",
+      });
+    } catch (error) {
+      return res.status(400).json({
+        message: "Wystąpił błąd podczas zmiany hasła",
         error: error instanceof Error ? error.message : "Nieznany błąd",
       });
     }

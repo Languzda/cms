@@ -21,6 +21,30 @@ export class UserService {
     return this.userRepository.getUserByLogin(login);
   }
 
+  async updateUserPassword(userId: string, oldPassword: string, newPassword: string): Promise<users> {
+
+    const user = await this.userRepository.getUserById(userId);
+
+    if (!user) {
+      throw new Error("Nie znaleziono użytkownika");
+    }
+
+    const isOldPasswordValid = await bcrypt.compare(
+      oldPassword,
+      user.password
+    );
+
+    if (!isOldPasswordValid) {
+      throw new Error("Nieprawidłowe hasło");
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    return this.userRepository.updateUser(userId, {
+      password: hashedPassword,
+    });
+  }
+
   async loginUser(userData: {
     email: string;
     password: string;

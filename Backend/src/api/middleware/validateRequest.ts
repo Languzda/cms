@@ -12,6 +12,7 @@ export const validateRequest = (
       message: "Błąd walidacji",
       error: errors.mapped(),
     });
+  } else {
+    next();
   }
-  next();
 };
