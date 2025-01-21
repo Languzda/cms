@@ -11,4 +11,8 @@ router.get("/", async (req, res) => {
     await new PostController().getPosts(req, res);
 });
 
+router.delete("/delete", async (req, res) => {
+    await new PostController().deletePost(req, res);
+});
+
 export default router;

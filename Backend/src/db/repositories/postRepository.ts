@@ -19,6 +19,15 @@ export class PostRepository extends BaseRepository {
     });
   }
 
+  async deletePost(id: string): Promise<posts> {
+    return this.prisma.posts.update({
+      where: { id },
+      data: {
+        is_deleted: true,
+      },
+    });
+  }
+
   async getPosts(options?: {
     take?: number;
     skip?: number;

@@ -12,6 +12,10 @@ export class PostService{
         return this.postRepository.createPost(postData);
     }
 
+    async deletePost(postId: string): Promise<posts> {
+        return this.postRepository.deletePost(postId);
+    }
+
     async getPosts(options?: {
         take?: number;
         skip?: number;
