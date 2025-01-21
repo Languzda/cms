@@ -65,6 +65,7 @@ export class UserController {
         message: "Zalogowano pomyślnie",
         token,
         userId:user.id,
+        userRole: user.role,
       });
     } catch (error) {
       return res.status(400).json({
