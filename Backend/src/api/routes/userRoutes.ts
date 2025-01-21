@@ -32,4 +32,8 @@ router.put("/change-password", async (req: Request, res: Response) => {
     await userController.updateUserPassword(req, res);
 });
 
+router.get("/allUsers", async (req: Request, res: Response) => {
+    await userController.getAllUsers(req, res);
+});
+
 export default router;

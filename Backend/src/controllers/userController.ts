@@ -74,6 +74,15 @@ export class UserController {
     }
   }
 
+  async getAllUsers(req: Request, res: Response) {
+    try {
+      const users = await this.userService.getAllUsers();
+      return res.status(200).json(users);
+    } catch (error) {
+      return res.status(500).json({ message: "Błąd serwera" });
+    }
+  }
+
   async updateUserPassword(req: Request, res: Response) {
     try {
       const {userId, oldPassword, newPassword } = req.body;

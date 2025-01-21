@@ -45,6 +45,8 @@ export class UserService {
     });
   }
 
+  // async updateUserAvatar
+
   async loginUser(userData: {
     email: string;
     password: string;
@@ -94,5 +96,9 @@ export class UserService {
       ...userData,
       password: hashedPassword,
     });
+  }
+
+  async getAllUsers(): Promise<users[]> {
+    return this.userRepository.getAllUsers();
   }
 }

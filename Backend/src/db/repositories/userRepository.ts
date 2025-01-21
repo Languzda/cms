@@ -30,6 +30,10 @@ export class UserRepository extends BaseRepository {
     });
   }
 
+  async getAllUsers(): Promise<users[]> {
+    return this.prisma.users.findMany();
+  }
+
   async updateUser(id: string, data: Prisma.usersUpdateInput): Promise<users> {
     return this.prisma.users.update({
       where: { id },
